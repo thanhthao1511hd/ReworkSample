@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragmentHome2">
+    app:startDestination="@id/fragmentHome">
     <fragment
-        android:id="@+id/fragmentHome2"
+        android:id="@+id/fragmentHome"
         android:name="com.example.reworksample.ui.fragment.FragmentHome"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_fragmentHome2_to_fragmentDetail"
+            android:id="@+id/action_fragmentHome_to_fragmentDetail"
             app:destination="@id/fragmentDetail" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentFavourite2"
+        android:id="@+id/fragmentFavourite"
         android:name="com.example.reworksample.ui.fragment.FragmentFavourite"
         android:label="fragment_favourite"
         tools:layout="@layout/fragment_favourite" />
     <fragment
-        android:id="@+id/fragmentAccount2"
+        android:id="@+id/fragmentAccount"
         android:name="com.example.reworksample.ui.fragment.FragmentAccount"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />

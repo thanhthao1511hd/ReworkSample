@@ -63,15 +63,15 @@ public class FragmentFavourite extends Fragment implements  FlexibleDeskEntityAd
     }
 
     private void setView() {
-        viewModel.getFleListMutableLiveData().observe(getViewLifecycleOwner(), flexibleDeskEntities -> {
-            if (binding.rvSpaceList!=null)
+        viewModel.getFlexibleDeskLiveData().observe(getViewLifecycleOwner(), flexibleDeskEntities -> {
+            if (binding.rvFavouriteList!=null)
             {
-                binding.rvSpaceList.getAdapter().notifyDataSetChanged();
+                binding.rvFavouriteList.getAdapter().notifyDataSetChanged();
             }
         });
-        binding.rvSpaceList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FlexibleDeskEntityAdapter adpapter=new FlexibleDeskEntityAdapter(getActivity(), viewModel.getFleListMutableLiveData(), this);
-        binding.rvSpaceList.setAdapter(adpapter);
+        binding.rvFavouriteList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        FlexibleDeskEntityAdapter adpapter=new FlexibleDeskEntityAdapter(getActivity(), viewModel.getFlexibleDeskLiveData(), this);
+        binding.rvFavouriteList.setAdapter(adpapter);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class FragmentFavourite extends Fragment implements  FlexibleDeskEntityAd
 
     @Override
     public void onClickBtnRemove(int position) {
-        if (viewModel.getFleListMutableLiveData().getValue()==null) return;
+        if (viewModel.getFlexibleDeskLiveData().getValue()==null) return;
         SetOnClickItem onClickItem=new SetOnClickItem() {
             @Override
             public void onSuccess(String name) {
@@ -93,6 +93,6 @@ public class FragmentFavourite extends Fragment implements  FlexibleDeskEntityAd
                 Toast.makeText(getActivity(), "Xoá thất bại: "+ message, Toast.LENGTH_SHORT).show();
             }
         };
-        viewModel.deleteFlexibleDesk(viewModel.getFleListMutableLiveData().getValue().get(position), onClickItem);
+        viewModel.deleteFlexibleDesk(viewModel.getFlexibleDeskLiveData().getValue().get(position), onClickItem);
     }
 }

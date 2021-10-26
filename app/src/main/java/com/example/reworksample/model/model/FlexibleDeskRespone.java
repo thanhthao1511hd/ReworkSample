@@ -1,6 +1,4 @@
 package com.example.reworksample.model.model;
-
-import com.example.reworksample.model.model.Data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

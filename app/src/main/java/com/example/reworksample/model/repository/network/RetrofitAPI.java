@@ -10,21 +10,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitAPI {
     static Retrofit retrofit;
 
-    private static Retrofit getRetrofit() {
-        if (retrofit == null) {
-            final OkHttpClient client = new OkHttpClient.Builder().readTimeout(30, TimeUnit.SECONDS)
-                    .connectTimeout(30, TimeUnit.SECONDS).build();
+    private static Retrofit getRetrofitInstance(){
+        if(retrofit == null) {
+
+            final OkHttpClient client = new OkHttpClient.Builder()
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .build();
+
             client.dispatcher().setMaxRequests(8);
             retrofit = new Retrofit.Builder()
                     .baseUrl("https://develop.api.spaceshare.vn/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .client(client).build();
+                    .client(client)
+                    .build();
         }
         return retrofit;
     }
-    public static RetrofitInterface getService()
-    {
-        return getRetrofit().create(RetrofitInterface.class);
+
+    public static RetrofitInterface getService() {
+        return getRetrofitInstance().create(RetrofitInterface.class);
     }
 }

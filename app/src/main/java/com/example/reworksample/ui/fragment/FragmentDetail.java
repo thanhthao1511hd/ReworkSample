@@ -19,18 +19,18 @@ import com.google.android.material.slider.Slider;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
 public class FragmentDetail extends Fragment {
-    FragmentDetailBinding binding;
-    int position;
-    private static final String ARG_PARAM1="position";
+    private static final String ARG_PARAM1 = "position";
+
+    private int position;
+    private FragmentDetailBinding binding;
     private HomeViewModel viewModel;
+
     public FragmentDetail() {
-        // Required empty public constructor
     }
 
     public static FragmentDetail newInstance(int param1) {
-
-        FragmentDetail fragment=new FragmentDetail();
-        Bundle args=new Bundle();
+        FragmentDetail fragment = new FragmentDetail();
+        Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
@@ -39,44 +39,42 @@ public class FragmentDetail extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments()!=null)
-        {
-            position=getArguments().getInt(ARG_PARAM1);
+        if (getArguments() != null) {
+            position = getArguments().getInt(ARG_PARAM1);
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false);
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_detail, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel=new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+        viewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
         viewModel.initData(getActivity());
+
         setClick();
-        SliderAdapter sliderAdapter=new SliderAdapter(getActivity());
-        if (viewModel.getFlexibleDeskResponeMutableLiveData().getValue()!=null)
-        {
-            binding.setResult(viewModel.getFlexibleDeskResponeMutableLiveData().getValue().getData().getResults().get(position));
-            sliderAdapter.renewItems(viewModel.getFlexibleDeskResponeMutableLiveData().getValue().getData().getResults().get(position).getPhotos());
-            binding.imageSlider.setSliderAdapter(sliderAdapter);
+
+        SliderAdapter adapter = new SliderAdapter(getActivity());
+        if(viewModel.getFlexibleDeskResponeLiveData().getValue() != null){
+
+            binding.setResult(viewModel.getFlexibleDeskResponeLiveData().getValue().getData().getResults().get(position));
+
+            adapter.renewItems(viewModel.getFlexibleDeskResponeLiveData().getValue().getData().getResults().get(position).getPhotos());
+            binding.imageSlider.setSliderAdapter(adapter);
         }
     }
 
     private void setClick() {
-        binding.btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity()!=null)
-                {
-                    getActivity().onBackPressed();
-                }
-            }
+        binding.btnBack.setOnClickListener(v -> {
+            if(getActivity() != null)
+                getActivity().onBackPressed();
         });
     }
 }

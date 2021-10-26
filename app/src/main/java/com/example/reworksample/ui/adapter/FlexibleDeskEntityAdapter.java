@@ -21,65 +21,63 @@ import java.util.List;
 
 
 // Set dữ liệu cho item trong list yêu thích
-public class FlexibleDeskEntityAdapter extends RecyclerView.Adapter<FlexibleDeskEntityAdapter.viewHolder> {
-   private Context context;
-   private MutableLiveData<List<FlexibleDeskEntity>> flexibleDeskEntityMutableLiveData;
-   private OnClickItem onClickItem;
+public class FlexibleDeskEntityAdapter extends RecyclerView.Adapter<FlexibleDeskEntityAdapter.MyViewHolder>{
 
-    public FlexibleDeskEntityAdapter(Context context, MutableLiveData<List<FlexibleDeskEntity>> flexibleDeskEntityMutableLiveData, OnClickItem onClickItem) {
+    private Context context;
+    private MutableLiveData<List<FlexibleDeskEntity>> flexibleDeskResponeLiveData;
+    private OnClickItem onClickItem;
+
+    public FlexibleDeskEntityAdapter(Context context, MutableLiveData<List<FlexibleDeskEntity>> flexibleDeskResponeLiveData, OnClickItem onClickItem) {
         this.context = context;
-        this.flexibleDeskEntityMutableLiveData = flexibleDeskEntityMutableLiveData;
+        this.flexibleDeskResponeLiveData = flexibleDeskResponeLiveData;
         this.onClickItem = onClickItem;
     }
 
     @NonNull
     @Override
-    public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        FlexibleItemEntityBinding binding=  DataBindingUtil.inflate(
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        FlexibleItemEntityBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.flexible_item_entity, parent, false);
-        return new viewHolder(binding);
+        return new MyViewHolder(binding);
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull viewHolder holder, @SuppressLint("RecyclerView") int position) {
-       if (flexibleDeskEntityMutableLiveData.getValue()==null)
-       {
-           return;
-       }else{
-           holder.binding.setFlexibleDesk(flexibleDeskEntityMutableLiveData.getValue().get(position));
-           holder.binding.buttonDelete.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   onClickItem.onClickBtnRemove(position);
-               }
-           });
-           holder.binding.buttonUpdate.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   onClickItem.onClickUpdate(position);
-               }
-           });
-       }
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        if(flexibleDeskResponeLiveData.getValue() == null) return;
+        holder.binding.setFlexibleDesk(flexibleDeskResponeLiveData.getValue().get(position));
+        holder.binding.buttonDelete.setOnClickListener(v -> {
+            onClickItem.onClickBtnRemove(position);
+        });
+        holder.binding.buttonUpdate.setOnClickListener(v -> {
+            onClickItem.onClickUpdate(position);
+        });
+
+
+
     }
 
     @Override
     public int getItemCount() {
-        if (flexibleDeskEntityMutableLiveData.getValue()==null)
-        {
+        if(flexibleDeskResponeLiveData.getValue() == null)
             return 0;
-        }else {
-            return flexibleDeskEntityMutableLiveData.getValue().size();
+        else {
+            return flexibleDeskResponeLiveData.getValue().size();
         }
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+
         FlexibleItemEntityBinding binding;
-        public viewHolder(@NonNull FlexibleItemEntityBinding binding) {
+
+        public MyViewHolder(@NonNull FlexibleItemEntityBinding binding) {
             super(binding.getRoot());
-            this.binding=binding;
+            this.binding = binding;
+
         }
     }
+
     public interface OnClickItem{
         void onClickUpdate(int position);
         void onClickBtnRemove(int position);

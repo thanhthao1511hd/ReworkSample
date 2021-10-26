@@ -20,54 +20,67 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class HomeViewModel extends ViewModel {
-    private MutableLiveData<FlexibleDeskRespone> flexibleDeskResponeMutableLiveData=new MutableLiveData<>();
-    public ObservableBoolean isLoading=new ObservableBoolean(false);
-    private RetrofitInterface retrofitInterface;
+
+    private MutableLiveData<FlexibleDeskRespone> flexibleDeskResponeLiveData  = new MutableLiveData<>();
+    public ObservableBoolean isLoading = new ObservableBoolean(false);
+
+    private RetrofitInterface retrofit;
     private AppDbHelper appDbHelper;
 
+
     public HomeViewModel() {
-    }
-    public void initData(Context context)
-    {
-        if (retrofitInterface==null)
-        {
-            this.retrofitInterface= RetrofitAPI.getService();
-        }
-        if (appDbHelper==null)
-        {
-            this.appDbHelper=AppDbHelper.getsInstance(AppDatabase.getInstance(context));
-        }
-    }
-    public Disposable getFlexibleDesk()
-    {
-        isLoading.set(true);
-        Disposable disposable=retrofitInterface.getFlexibleDesk().
-                subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
-                subscribe(flexibleDeskRespone -> {
-                    // onNext()
-                    isLoading.set(false);
-                    flexibleDeskResponeMutableLiveData.setValue(flexibleDeskRespone);
 
-        }, throwable -> {
-                    // onError()
+    }
+
+    public void initData(Context context){
+        if(retrofit == null){
+            this.retrofit = RetrofitAPI.getService();
+        }
+        if(appDbHelper == null){
+            this.appDbHelper = AppDbHelper.getsInstance(AppDatabase.getInstance(context));
+        }
+
+    }
+
+    public Disposable getFlexibleDesk(){
+        isLoading.set(true);
+        Disposable disposable = retrofit.getFlexibleDesk()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(flexibleDesk -> {
+                    //onNext
                     isLoading.set(false);
-                    Log.e("DDVH: ", throwable.getMessage());
+                    flexibleDeskResponeLiveData.setValue(flexibleDesk);
+                }, throwable -> {
+                    //onError
+                    isLoading.set(false);
+                    Log.e("DDVH", throwable.getMessage());
                 });
-        return disposable;
-    }
-    public Disposable insertFlexibleDesk(FlexibleDeskEntity flexibleDeskEntity, SetOnClickItem setOnClickItem)
-    {
-        isLoading.set(true);
-        Disposable disposable=appDbHelper.insertEntity(flexibleDeskEntity).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
-            setOnClickItem.onSuccess(flexibleDeskEntity.name);
-        }, throwable -> {
-            setOnClickItem.onFail(throwable.getMessage());
-        });
-        return disposable;
+
+        return  disposable;
     }
 
-    public MutableLiveData<FlexibleDeskRespone> getFlexibleDeskResponeMutableLiveData() {
-        return flexibleDeskResponeMutableLiveData;
+    public Disposable insertFlexibleDesk(FlexibleDeskEntity flexibleDeskEntity, SetOnClickItem onClickBtnBookCallBack){
+        isLoading.set(true);
+        Disposable disposable = appDbHelper.insertEntity(flexibleDeskEntity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    //on Complete
+                    // updateUI
+                    onClickBtnBookCallBack.onSuccess(flexibleDeskEntity.name);
+                },throwable -> {
+                    //onError
+                    onClickBtnBookCallBack.onFail(throwable.getMessage());
+                });
+
+        return  disposable;
+    }
+
+
+
+    public MutableLiveData<FlexibleDeskRespone> getFlexibleDeskResponeLiveData() {
+        return flexibleDeskResponeLiveData;
     }
 
     public ObservableBoolean getIsLoading() {

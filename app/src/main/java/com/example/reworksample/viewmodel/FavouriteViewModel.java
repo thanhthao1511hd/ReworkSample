@@ -20,68 +20,82 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class FavouriteViewModel extends ViewModel {
-    private MutableLiveData<List<FlexibleDeskEntity>> fleListMutableLiveData=new MutableLiveData<>();
-    public ObservableBoolean isLoading=new ObservableBoolean(false);
-    private RetrofitInterface retrofitInterface;
+    private MutableLiveData<List<FlexibleDeskEntity>> flexibleDeskLiveData  = new MutableLiveData<>();
+    public ObservableBoolean isLoading = new ObservableBoolean(false);
+
+    private RetrofitInterface retrofit;
     private AppDbHelper appDbHelper;
 
+
     public FavouriteViewModel() {
+
+    }
+
+    public void initData(Context context){
+        if(retrofit == null){
+            this.retrofit = RetrofitAPI.getService();
+        }
+        if(appDbHelper == null){
+            this.appDbHelper = AppDbHelper.getsInstance(AppDatabase.getInstance(context));
+        }
+    }
+
+    public Disposable deleteFlexibleDesk(FlexibleDeskEntity flexibleDeskEntity, SetOnClickItem onClickItemFlexibleDeskCallBack){
+        isLoading.set(true);
+        Disposable disposable = appDbHelper.deleteEntity(flexibleDeskEntity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    //on Complete
+                    // updateUI
+                    onClickItemFlexibleDeskCallBack.onSuccess(flexibleDeskEntity.name);
+                },throwable -> {
+                    //onError
+                    onClickItemFlexibleDeskCallBack.onFail(throwable.getMessage());
+                });
+
+        return  disposable;
+    }
+
+    public Disposable upDateFlexibleDesk(FlexibleDeskEntity flexibleDeskEntity, SetOnClickItem onClickItemFlexibleDeskCallBack){
+        isLoading.set(true);
+        Disposable disposable = appDbHelper.updateEntity(flexibleDeskEntity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    //on Complete
+                    // updateUI
+                    onClickItemFlexibleDeskCallBack.onSuccess(flexibleDeskEntity.name);
+                },throwable -> {
+                    //onError
+                    onClickItemFlexibleDeskCallBack.onFail(throwable.getMessage());
+                });
+
+        return  disposable;
+    }
+
+    public Disposable getAllFlexibleDesk(){
+        isLoading.set(true);
+        Disposable disposable = appDbHelper.getAllEntities()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(flexibleDeskEntities -> {
+                    // onNext
+                    flexibleDeskLiveData.setValue(flexibleDeskEntities);
+                }, throwable -> {
+                    //on Error
+                },() -> {
+                    //on Complete
+                });
+
+        return  disposable;
+    }
+
+    public MutableLiveData<List<FlexibleDeskEntity>> getFlexibleDeskLiveData() {
+        return flexibleDeskLiveData;
     }
 
     public ObservableBoolean getIsLoading() {
         return isLoading;
-    }
-
-    public MutableLiveData<List<FlexibleDeskEntity>> getFleListMutableLiveData() {
-        return fleListMutableLiveData;
-    }
-    public void initData(Context context)
-    {
-        if (retrofitInterface==null)
-        {
-            this.retrofitInterface= RetrofitAPI.getService();
-
-        }
-        if(appDbHelper==null)
-        {
-            this.appDbHelper=AppDbHelper.getsInstance(AppDatabase.getInstance(context));
-        }
-    }
-    public Disposable deleteFlexibleDesk(FlexibleDeskEntity flexibleDeskEntity, SetOnClickItem onClickItem)
-    {
-        isLoading.set(true);
-        Disposable disposable=appDbHelper.deleteEntity(flexibleDeskEntity).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
-            // conComplete
-            // updateUI
-            onClickItem.onSuccess(flexibleDeskEntity.name);
-        }, throwable -> {
-            // onError
-            onClickItem.onFail(throwable.getMessage());
-        });
-        return disposable;
-
-    }
-    public Disposable updateFlexibleDesk(FlexibleDeskEntity flexibleDeskEntity, SetOnClickItem onClickItem)
-    {
-        isLoading.set(true);
-        Disposable disposable=appDbHelper.updateEntity(flexibleDeskEntity).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
-            onClickItem.onSuccess(flexibleDeskEntity.name);
-        }, throwable -> {
-            onClickItem.onFail(throwable.getMessage());
-        });
-        return disposable;
-    }
-    public Disposable getAllFlexibleDesk()
-    {
-        isLoading.set(true);
-        Disposable disposable=appDbHelper.getAllEntities().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(flexibleDeskEntities ->
-        {
-            fleListMutableLiveData.setValue(flexibleDeskEntities);
-        }, throwable -> {
-
-        }, () -> {
-
-        });
-        return disposable;
     }
 }

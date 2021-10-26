@@ -72,14 +72,14 @@ public class FragmentHome extends Fragment implements FlexibleDeskAdapter.OnClic
 
     @SuppressLint("NotifyDataSetChanged")
     private void setRecycleview(){
-        homeViewModel.getFlexibleDeskResponeMutableLiveData().observe(getViewLifecycleOwner(), flexibleDeskRespone -> {
+        homeViewModel.getFlexibleDeskResponeLiveData().observe(getViewLifecycleOwner(), flexibleDeskRespone -> {
             if (binding.rvSpaceList.getAdapter()!=null)
             {
                 binding.rvSpaceList.getAdapter().notifyDataSetChanged();
             }
         });
         binding.rvSpaceList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FlexibleDeskAdapter adapter=new FlexibleDeskAdapter(getActivity(), homeViewModel.getFlexibleDeskResponeMutableLiveData(), this);
+        FlexibleDeskAdapter adapter=new FlexibleDeskAdapter(getActivity(), homeViewModel.getFlexibleDeskResponeLiveData(), this);
         binding.rvSpaceList.setAdapter(adapter);
     }
 
@@ -87,17 +87,17 @@ public class FragmentHome extends Fragment implements FlexibleDeskAdapter.OnClic
     public void onClickItem(int position) {
         Bundle bundle=new Bundle();
         bundle.putInt("position", position);
-        navController.navigate(R.id.action_fragmentHome2_to_fragmentDetail, bundle);
+        navController.navigate(R.id.action_fragmentHome_to_fragmentDetail, bundle);
     }
 
     @Override
     public void onClickBtnFavourite(int position) {
-        if (homeViewModel.getFlexibleDeskResponeMutableLiveData().getValue()==null) return;
+        if (homeViewModel.getFlexibleDeskResponeLiveData().getValue()==null) return;
         FlexibleDeskEntity flexibleDeskEntity=new FlexibleDeskEntity();
-        flexibleDeskEntity.location=homeViewModel.getFlexibleDeskResponeMutableLiveData().getValue().getData().getResults().get(position).getSpaceMeta().getShortenAddress();
-        flexibleDeskEntity.name=homeViewModel.getFlexibleDeskResponeMutableLiveData().getValue().getData().getResults().get(position).getSpaceMeta().getName();
-        flexibleDeskEntity.thumbnail=homeViewModel.getFlexibleDeskResponeMutableLiveData().getValue().getData().getResults().get(position).getPhotos().get(0).getThumbnail();
-        flexibleDeskEntity.uid=homeViewModel.getFlexibleDeskResponeMutableLiveData().getValue().getData().getResults().get(position).getId();
+        flexibleDeskEntity.location=homeViewModel.getFlexibleDeskResponeLiveData().getValue().getData().getResults().get(position).getSpaceMeta().getShortenAddress();
+        flexibleDeskEntity.name=homeViewModel.getFlexibleDeskResponeLiveData().getValue().getData().getResults().get(position).getSpaceMeta().getName();
+        flexibleDeskEntity.thumbnail=homeViewModel.getFlexibleDeskResponeLiveData().getValue().getData().getResults().get(position).getPhotos().get(0).getThumbnail();
+        flexibleDeskEntity.uid=homeViewModel.getFlexibleDeskResponeLiveData().getValue().getData().getResults().get(position).getId();
         SetOnClickItem onClickItem=new SetOnClickItem() {
             @Override
             public void onSuccess(String name) {
