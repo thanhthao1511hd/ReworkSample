@@ -32,6 +32,7 @@ public class FragmentHome extends Fragment implements FlexibleDeskAdapter.OnClic
     FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
     private NavController navController;
+    private static FragmentHome fragmentHome;
 
     public FragmentHome() {
         // Required empty public constructor
@@ -39,11 +40,10 @@ public class FragmentHome extends Fragment implements FlexibleDeskAdapter.OnClic
 
     public static FragmentHome newInstance() {
 
-        Bundle args = new Bundle();
-
-        FragmentHome fragment = new FragmentHome();
-        fragment.setArguments(args);
-        return fragment;
+        if(fragmentHome == null){
+            fragmentHome = new FragmentHome();
+        }
+        return fragmentHome;
     }
 
     @Override

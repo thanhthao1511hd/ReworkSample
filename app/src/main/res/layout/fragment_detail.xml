@@ -6,94 +6,120 @@
             name="result"
             type="com.example.reworksample.model.model.Result" />
     </data>
-    <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.fragment.FragmentFavourite">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@color/red"
-            >
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/imgback"
-                android:padding="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_baseline_arrow_back_ios_24"
-                />
-        </LinearLayout>
-        <com.smarteist.autoimageslider.SliderView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:id="@+id/imageSlider"
-            app:sliderAnimationDuration="500"
-            app:sliderAutoCycleDirection="back_and_forth"
-            app:sliderAutoCycleEnabled="true"
-            app:sliderIndicatorAnimationDuration="500"
-            app:sliderIndicatorGravity="center_horizontal"
-            app:sliderIndicatorMargin="15dp"
-            app:sliderIndicatorPadding="3dp"
-            app:sliderIndicatorRadius="2dp"
-            app:sliderIndicatorSelectedColor="@color/red2"
-            app:sliderIndicatorUnselectedColor="#7A7979"
-            app:sliderScrollTimeInSec="2"
-            app:sliderStartAutoCycle="true"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:text="@{result.name}"
-            android:textColor="@color/black"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="15dp"
-            android:gravity="center_vertical"
-            android:id="@+id/tvResult"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_baseline_location_on_24"
-                />
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/red"
+                android:layout_height="56dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:id="@+id/btn_back"
+                    android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                    android:layout_gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="8dp"
+                    android:layout_height="56dp"
+                    app:tint="#FFFFFF" />
+
+            </LinearLayout>
+
+            <com.smarteist.autoimageslider.SliderView
+                android:id="@+id/imageSlider"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:sliderAnimationDuration="600"
+                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderAutoCycleEnabled="true"
+                app:sliderIndicatorAnimationDuration="600"
+                app:sliderIndicatorGravity="center_horizontal|bottom"
+                app:sliderIndicatorMargin="15dp"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="3dp"
+                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorSelectedColor="#5A5A5A"
+                app:sliderIndicatorUnselectedColor="#FFF"
+                app:sliderScrollTimeInSec="1"
+                app:sliderStartAutoCycle="true" />
+
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvResult_location"
-                android:layout_gravity="center_vertical"
-                app:setTextAddress="@{result}"
-                android:layout_marginLeft="15dp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_baseline_local_phone_24"
-                />
-            <TextView
+                android:textSize="16dp"
+                android:layout_marginTop="6dp"
+                android:text="@{result.name}"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="16dp"
+                android:maxLines="2"
+                android:textStyle="bold"
+                android:id="@+id/tv_name_flexible_desk"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvResult_phone"
-                android:text="@{result.spaceMeta.phoneNumber}"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                />
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:src="@drawable/ic_baseline_location_on_24"
+                    android:scaleType="centerCrop"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14dp"
+                    android:textColor="#616161"
+                    android:layout_marginLeft="8dp"
+                    app:setTextAddress ="@{result}"
+                    android:maxLines="2"
+                    android:id="@+id/tv_location_flexible_desk"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="16dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:src="@drawable/ic_baseline_local_phone_24"
+                    android:scaleType="centerCrop"
+                    android:layout_height="20dp"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14dp"
+                    android:text="@{result.spaceMeta.phoneNumber}"
+                    android:textColor="#616161"
+                    android:maxLines="2"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
         </LinearLayout>
-    </LinearLayout>
+
+
+    </ScrollView>
 
 
 </layout>

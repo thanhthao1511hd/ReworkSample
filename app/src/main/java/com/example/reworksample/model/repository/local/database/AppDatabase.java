@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.reworksample.model.repository.local.dao.FlexibleDeskDAO;
 import com.example.reworksample.model.repository.local.entity.FlexibleDeskEntity;
 
-@Database(entities = {FlexibleDeskEntity.class}, version = 1)
+@Database(entities = {FlexibleDeskEntity.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract FlexibleDeskDAO getDAO();
 

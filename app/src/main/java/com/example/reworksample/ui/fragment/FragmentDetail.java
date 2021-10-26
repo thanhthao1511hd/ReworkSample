@@ -69,7 +69,7 @@ public class FragmentDetail extends Fragment {
     }
 
     private void setClick() {
-        binding.imgback.setOnClickListener(new View.OnClickListener() {
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (getActivity()!=null)

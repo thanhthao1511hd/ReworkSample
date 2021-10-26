@@ -18,9 +18,9 @@ import com.example.reworksample.model.model.FlexibleDeskRespone;
 
 // Set dữ liệu cho item trong list hiển thị ở trang Home
 public class FlexibleDeskAdapter extends RecyclerView.Adapter<FlexibleDeskAdapter.viewHolder> {
-   private Context context;
-   private MutableLiveData<FlexibleDeskRespone> flexibleDeskResponeMutableLiveData;
-   private OnClickItem onClickItem;
+    private Context context;
+    private MutableLiveData<FlexibleDeskRespone> flexibleDeskResponeMutableLiveData;
+    private OnClickItem onClickItem;
 
     public FlexibleDeskAdapter(Context context, MutableLiveData<FlexibleDeskRespone> flexibleDeskResponeMutableLiveData, OnClickItem onClickItem) {
         this.context = context;
@@ -31,9 +31,9 @@ public class FlexibleDeskAdapter extends RecyclerView.Adapter<FlexibleDeskAdapte
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       FlexibleItemBinding binding= DataBindingUtil.inflate(LayoutInflater
-               .from(parent.getContext()), R.layout.flexible_item, parent, false);
-       return new viewHolder(binding);
+        FlexibleItemBinding binding= DataBindingUtil.inflate(LayoutInflater
+                .from(parent.getContext()), R.layout.flexible_item, parent, false);
+        return new viewHolder(binding);
     }
 
     @Override
@@ -44,18 +44,8 @@ public class FlexibleDeskAdapter extends RecyclerView.Adapter<FlexibleDeskAdapte
             return;
         }else{
             holder.binding.setResult(flexibleDeskResponeMutableLiveData.getValue().getData().getResults().get(position));
-            holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickItem.onClickItem(position);
-                }
-            });
-            holder.binding.buttonFavourite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickItem.onClickBtnFavourite(position);
-                }
-            });
+            holder.binding.getRoot().setOnClickListener(v -> onClickItem.onClickItem(position));
+            holder.binding.llFavourite.setOnClickListener(v -> onClickItem.onClickBtnFavourite(position));
         }
     }
 
@@ -66,6 +56,7 @@ public class FlexibleDeskAdapter extends RecyclerView.Adapter<FlexibleDeskAdapte
             return 0;
         }else{
             return  flexibleDeskResponeMutableLiveData.getValue().getData().getResults().size();
+
         }
     }
 

@@ -6,25 +6,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".ui.fragment.FragmentFavourite">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/red"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Danh sách yêu thích"
-            android:textSize="18dp"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="15dp"/>
-    </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:id="@+id/rv_favouriteList"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@color/red"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Hệ thống CoWorking Space"
+                android:textSize="18dp"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="15dp"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:id="@+id/rv_spaceList"/>
     </LinearLayout>
 </layout>

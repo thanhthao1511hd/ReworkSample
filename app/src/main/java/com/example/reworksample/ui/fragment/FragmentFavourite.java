@@ -64,14 +64,14 @@ public class FragmentFavourite extends Fragment implements  FlexibleDeskEntityAd
 
     private void setView() {
         viewModel.getFleListMutableLiveData().observe(getViewLifecycleOwner(), flexibleDeskEntities -> {
-            if (binding.rvFavouriteList!=null)
+            if (binding.rvSpaceList!=null)
             {
-                binding.rvFavouriteList.getAdapter().notifyDataSetChanged();
+                binding.rvSpaceList.getAdapter().notifyDataSetChanged();
             }
         });
-        binding.rvFavouriteList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvSpaceList.setLayoutManager(new LinearLayoutManager(getActivity()));
         FlexibleDeskEntityAdapter adpapter=new FlexibleDeskEntityAdapter(getActivity(), viewModel.getFleListMutableLiveData(), this);
-        binding.rvFavouriteList.setAdapter(adpapter);
+        binding.rvSpaceList.setAdapter(adpapter);
     }
 
     @Override

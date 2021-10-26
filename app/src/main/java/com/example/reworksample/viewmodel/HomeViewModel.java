@@ -20,7 +20,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class HomeViewModel extends ViewModel {
-    private MutableLiveData<FlexibleDeskRespone> flexibleDeskResponeMutableLiveData;
+    private MutableLiveData<FlexibleDeskRespone> flexibleDeskResponeMutableLiveData=new MutableLiveData<>();
     public ObservableBoolean isLoading=new ObservableBoolean(false);
     private RetrofitInterface retrofitInterface;
     private AppDbHelper appDbHelper;
